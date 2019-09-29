@@ -1,21 +1,15 @@
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using LanguageExt;
+using Murg.Backend.Input;
 using static LanguageExt.Prelude;
 
-namespace Murg.Backend.FsInfo
+namespace Murg.Backend.InfoExtraction
 {
     public static class TrackDirInfoExtractor
     {
-        static List<string> GetAudioFiles(string dir)
-        {
-            var extensions = new[] { ".mp3", ".ape", ".flac", ".mpc", ".ogg", ".wav" };
-            return Directory.GetFiles(dir).Filter(x => extensions.Contains(Path.GetExtension(x)?.ToLower())).ToList();
-        }
-
-        static TrackInfo ExtractTrackInfo(string originalFileName, LanguageExt.HashSet<string> commonTokens, string fileName)
+        static TrackInfo ExtractTrackInfo(string originalFileName, HashSet<string> commonTokens, string fileName)
         {
             string RemoveCommonTokens(string s) => s
                 .Apply(StringUtils.SplitToTokens)
@@ -42,23 +36,27 @@ namespace Murg.Backend.FsInfo
             );
         }
         
-        public static TrackDirInfo Extract(string path)
+        public static TrackDirInfo Extract(InputRoot input)
         {
-            var filePaths = GetAudioFiles(path).OrderBy(x => x).ToList();
-            if (filePaths.Count == 0) return new TrackDirInfo(path: path, commonPrefix: None, tracks: Empty);
+            var path = input.Uri.LocalPath; // TODO
+            var files = input.Files.Filter(x => x.Type == InputFileType.Audio).OrderBy(x => x.Path).ToList();
+            if (files.Count == 0) return new TrackDirInfo(path: path, commonPrefix: None, tracks: Empty);
             
-            var prefix = filePaths
+            var prefix = files
+                .Map(x => x.Path)
                 .Map(Path.GetFileNameWithoutExtension)
                 .Apply(StringUtils.FindLongestCommonPrefix(ignoreCase: true))
                 .Apply(x => x.Trim());
-            var commonTokens = filePaths
+            var commonTokens = files
+                .Map(x => x.Path)
                 .Map(Path.GetFileNameWithoutExtension)
                 .Map(s => s.Substring(prefix.Length))
                 .Apply(StringUtils.FindCommonTokens)
                 .Apply(toHashSet);
             
-            var tracks = filePaths.Map(filePath =>
+            var tracks = files.Map(file =>
             {
+                var filePath = file.Path;
                 var originalFileName = Path.GetFileName(filePath);
                 var fileName = Path.GetFileNameWithoutExtension(filePath).Substring(prefix.Length).Trim();
                 return ExtractTrackInfo(originalFileName, commonTokens, fileName);

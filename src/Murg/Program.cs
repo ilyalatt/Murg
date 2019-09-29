@@ -8,7 +8,8 @@ using Discogs.ApiClient.ApiModel.Responses.Database.GetRelease;
 using LanguageExt;
 using LanguageExt.UnsafeValueAccess;
 using Murg.Backend;
-using Murg.Backend.FsInfo;
+using Murg.Backend.InfoExtraction;
+using Murg.Backend.Input;
 using Murg.Cli;
 using ShellProgressBar;
 using static LanguageExt.Prelude;
@@ -158,7 +159,7 @@ namespace Murg
             }
         }
 
-        static List<TrackDirInfo> GetWorkingDirectories(CliArguments args)
+        static async Task<List<TrackDirInfo>> GetWorkingDirectories(CliArguments args)
         {
             var baseDirs = args.Directories
                 .Map(Path.GetFullPath)
@@ -170,7 +171,8 @@ namespace Murg
                 Directory.GetDirectories(dir, "*", SearchOption.AllDirectories);
 
             var dirs = !args.Recursive ? baseDirs : baseDirs.Concat(baseDirs.Bind(SubDirs));
-            return dirs.Map(TrackDirInfoExtractor.Extract).ToList();
+            var inputRoots = await dirs.Map(x => FsReader.GetInputRoot(x)).Apply(Task.WhenAll);
+            return inputRoots.Map(TrackDirInfoExtractor.Extract).ToList();
         }
 
         static async Task Work(CliEnvironment env)
@@ -178,7 +180,7 @@ namespace Murg
             var args = env.Args;
             var client = DiscogsApiClientProvider.CreateDiscogsApiClient();
 
-            var workingDirs = GetWorkingDirectories(args);
+            var workingDirs = await GetWorkingDirectories(args);
             foreach (var dir in workingDirs.Filter(x => x.Tracks.Count < 2))
             {
                 env.WriteInfoLine($"Ignoring {dir.Path}");

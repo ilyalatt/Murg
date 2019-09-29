@@ -1,6 +1,6 @@
 using LanguageExt;
 
-namespace Murg.Backend.FsInfo
+namespace Murg.Backend.InfoExtraction
 {
     public sealed class TrackDirInfo
     {
