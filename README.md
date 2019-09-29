@@ -1,6 +1,6 @@
 # Murg
 
-Murg is a console tool to simplify the process of reorganizing downloaded music. It uses info like file name, count of tracks in a directory to find [Discorg](https://www.discogs.com/) info. It renames a directory and tracks. It sets tags too.
+Murg is a console tool to simplify the process of reorganizing downloaded music. It uses info like file name, count of tracks in a directory to find [Discogs](https://www.discogs.com/) info. It renames a directory and tracks. It sets tags too.
 
 ## Notice
 
