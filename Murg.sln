@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Murg.Backend", "src\Murg.Backend\Murg.Backend.csproj", "{EAF7E0CB-BE75-4321-8A43-3F8B2D0AEA77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Murg", "src\Murg\Murg.csproj", "{F90968A5-1E5D-47D0-B9DD-39DA5915AB2B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EAF7E0CB-BE75-4321-8A43-3F8B2D0AEA77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAF7E0CB-BE75-4321-8A43-3F8B2D0AEA77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAF7E0CB-BE75-4321-8A43-3F8B2D0AEA77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAF7E0CB-BE75-4321-8A43-3F8B2D0AEA77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F90968A5-1E5D-47D0-B9DD-39DA5915AB2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F90968A5-1E5D-47D0-B9DD-39DA5915AB2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F90968A5-1E5D-47D0-B9DD-39DA5915AB2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F90968A5-1E5D-47D0-B9DD-39DA5915AB2B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
