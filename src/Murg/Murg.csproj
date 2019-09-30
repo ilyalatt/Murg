@@ -9,6 +9,14 @@
     <Version>0.1.0</Version>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PublishTrimmed>true</PublishTrimmed>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <RuntimeHostConfigurationOption Include="System.Globalization.Invariant" Value="true" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="../Murg.Backend/Murg.Backend.csproj" />
   </ItemGroup>

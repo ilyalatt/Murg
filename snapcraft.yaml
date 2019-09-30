@@ -1,0 +1,25 @@
+name: murg
+version: 0.1.0
+summary: Command line tool for automatic music organization.
+description: Check out https://github.com/ilyalatt/Murg.
+
+grade: devel
+confinement: strict
+base: core18
+
+apps:
+  murg:
+    command: Murg
+    plugs:
+      - home
+      - network
+      - mount-observe
+      - process-control
+    environment:
+      # https://github.com/dotnet/coreclr/issues/20287#issuecomment-527503511
+      DOTNET_BUNDLE_EXTRACT_BASE_DIR: /tmp
+
+parts:
+  murg:
+    source: build
+    plugin: dump
