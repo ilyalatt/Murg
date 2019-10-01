@@ -8,6 +8,13 @@ namespace Murg.Backend.Cache
 {
     sealed class CachingHttpClient : HttpClient
     {
+        static HttpClientHandler CreateHttpClientHandler() => new HttpClientHandler
+        {
+            AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
+        };
+        
+        public CachingHttpClient() : base(CreateHttpClientHandler()) { }
+        
         public override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var url = request.RequestUri.ToString();
